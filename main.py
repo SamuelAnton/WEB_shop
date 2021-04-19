@@ -6,6 +6,7 @@ from data.baskets import Baskets
 from data.active_basket import ActiveBaskets
 from data.category import Categories
 from forms.user import *
+from forms.cat_filter import *
 from flask_login import LoginManager, login_user, current_user
 from flask import make_response
 import json
@@ -16,12 +17,24 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-@app.route("/")
+@app.route('/index', methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def index():
+    form = Filter()
     db_sess = db_session.create_session()
-    items = db_sess.query(Items)
     tags = db_sess.query(Categories)
-    return render_template("index.html", items=items, tags=tags)
+    if form.validate_on_submit():
+        a = []
+        cats = [form.brushes.data, form.palettes.data, form.erasers.data, form.sharpeners.data,
+                form.albums.data, form.paperboard.data, form.canvases.data, form.pencils.data,
+                form.markers.data, form.chalk.data, form.felt_pen.data, form.paints.data]
+        for i in range(len(cats)):
+            if cats[i]:
+                a.append(i + 1)
+        items = db_sess.query(Items).filter(Items.category_id.in_(a))
+        return render_template("index.html", items=items, tags=tags, form=form)
+    items = db_sess.query(Items)
+    return render_template("index.html", items=items, tags=tags, form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -86,9 +99,9 @@ def add_categorys():
     db_sess = db_session.create_session()
     if len(db_sess.query(Categories).all()) != 0:
         return
-    categories = ['Brushes', 'Erasers', 'Palettes', 'Sharpeners', 'Albums',
-                  'Cardboard', 'Canvases', 'Pencils', 'Markers', 'Chalk',
-                  'Felt-tip pens', 'Paints']
+    categories = ['Кисти', 'Стёрки', 'Палитры', 'Точилки', 'Альбомы',
+                  'Картон', 'Холсты', 'Карандаши', 'Маркеры', 'Мел',
+                  'Фломастеры', 'Краски']
     for i in categories:
         cat = Categories()
         cat.category = i

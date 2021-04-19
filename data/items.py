@@ -1,4 +1,5 @@
 import sqlalchemy
+from flask import url_for
 from sqlalchemy_serializer import SerializerMixin
 from .db_session import SqlAlchemyBase
 
