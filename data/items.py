@@ -1,9 +1,10 @@
+# импортируем нужные библиотеки
 import sqlalchemy
-from flask import url_for
 from sqlalchemy_serializer import SerializerMixin
 from .db_session import SqlAlchemyBase
 
 
+# Таблица товаров
 class Items(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'items'
 
@@ -15,4 +16,3 @@ class Items(SqlAlchemyBase, SerializerMixin):
     price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     category_id = sqlalchemy.Column(sqlalchemy.Integer,
                                     sqlalchemy.ForeignKey("category.id"))
-

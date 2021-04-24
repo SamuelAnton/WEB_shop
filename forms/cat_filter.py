@@ -1,7 +1,9 @@
+# Имортируем нужные библиоткеи
 from flask_wtf import FlaskForm
 from wtforms import *
 
 
+# Класс формы фильтра товаров
 class Filter(FlaskForm):
     brushes = BooleanField('Кисти')
     palettes = BooleanField('Палитры')

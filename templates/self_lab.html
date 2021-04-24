@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <a href="/index" class="btn btn-secondary"><- Вернуться</a>
     <h1>Личный Кабинет</h1>
     <h2>{{ user.name }}</h2>
     <a href="/logout" class="btn btn-secondary">Выйти</a>
@@ -15,7 +16,7 @@
                                 {{item.description}}
                             </div>
                             <img src='/static/img/{{item.id}}.png' alt="здесь должна была быть картинка, но не нашлась">
-                            <h2>Цена: {{item.price}}</h2>
+                            <h2>Цена: {{item.price}}  Количество в корзине: {{ num[basket][item] }}</h2>
                         </div>
                 </div>
             {% endfor %}
