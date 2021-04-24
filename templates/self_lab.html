@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Личный Кабинет</h1>
+    <h2>{{ user.name }}</h2>
+    <a href="/logout" class="btn btn-secondary">Выйти</a>
+    {% for basket in baskets%}
+        <div class="col-md6 border rounded">
+            <div>Дата покупки: {{ basket.created_date }}</div>
+            {% for item in items[basket]%}
+                <div class="col-md6 border rounded">
+                        <div class="col-md6 border rounded">
+                            <h2>{{item.name}}</h2>
+                            <div>
+                                {{item.description}}
+                            </div>
+                            <img src='/static/img/{{item.id}}.png' alt="здесь должна была быть картинка, но не нашлась">
+                            <h2>Цена: {{item.price}}</h2>
+                        </div>
+                </div>
+            {% endfor %}
+            <h3>Общая стоимость: {{ basket.price }}</h3>
+        </div>
+    {% endfor %}
+{% endblock %}
